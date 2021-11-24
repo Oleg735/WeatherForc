@@ -21,11 +21,13 @@ struct Location: Decodable{
 struct Current: Decodable {
     let lastUpdated: String
     let tempC: Double
+    let feelsLike: Double
     let condition: Condition
 
     enum CodingKeys: String, CodingKey {
         case lastUpdated = "last_updated"
         case tempC = "temp_c"
+        case feelsLike = "feelslike_c"
         case condition
        }
 }
@@ -43,7 +45,7 @@ struct Forecast: Decodable {
 struct Forecastday: Decodable {
     let date: String
     let day: Day
-    //let astro: Astro
+    let astro: Astro
     let hour: [Hour]
 }
 
@@ -51,7 +53,7 @@ struct Day: Decodable {
     let maxtempC: Double
     let mintempC: Double
     let dailyChanceOfRain: Int
-    //let avgtempC: Double
+    let avgtempC: Double
     //let maxwindKph: Double
     //let totalprecipMm, totalprecipIn, avgvisKM, avgvisMiles: Int
     //let avghumidity, dailyWillItRain, dailyChanceOfRain, dailyWillItSnow: Int
@@ -61,8 +63,14 @@ struct Day: Decodable {
         case maxtempC = "maxtemp_c"
         case mintempC = "mintemp_c"
         case dailyChanceOfRain = "daily_chance_of_rain"
+        case avgtempC = "avgtemp_c"
         case condition
     }
+}
+
+struct Astro: Decodable {
+    let sunrise: String
+    let sunset: String
 }
 
 struct Hour: Decodable {
