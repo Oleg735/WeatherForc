@@ -13,8 +13,8 @@ class ListTVController: UITableViewController {
     
     private let emptyCity = Weather()
     
-    var filterCityArray = [Weather]()
-    var citiesArray = [Weather]()
+    private var filterCityArray = [Weather]()
+    private var citiesArray = [Weather]()
     
     var nameCitiesArray = ["Lviv", "Berlin", "Paris", "Warszawa", "Madrid", "San Francisco", "Reykjavík", "Anchorage"]
     
@@ -87,6 +87,32 @@ class ListTVController: UITableViewController {
             
         }
     }
+    
+    @IBAction func Forecast(_ sender: Any) {
+        self.performSegue(withIdentifier: "ShowForecast", sender: nil)
+    }
+    
+    
+    //MARK: Navigation
+     
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+         if segue.identifier == "showD" {
+
+             guard let indexPath = tableView.indexPathForSelectedRow else { return }
+
+             if isFiltering {
+                 let filter = filterCityArray[indexPath.row]
+                 let dstVC = segue.destination as! DetailVC
+                 dstVC.weatherModel = filter
+                 
+             } else {
+                 let cityWeather = citiesArray[indexPath.row]
+                 let dstVC = segue.destination as! DetailVC
+                 dstVC.weatherModel = cityWeather
+             }
+   
+         }
+     }
     // MARK: - Table view data source
 
 //    override func numberOfSections(in tableView: UITableView) -> Int {
@@ -121,26 +147,7 @@ class ListTVController: UITableViewController {
         return cell
     }
     
-   //MARK: Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showD" {
 
-            guard let indexPath = tableView.indexPathForSelectedRow else { return }
-
-            if isFiltering {
-                let filter = filterCityArray[indexPath.row]
-                let dstVC = segue.destination as! DetailVC
-                dstVC.weatherModel = filter
-                
-            } else {
-                let cityWeather = citiesArray[indexPath.row]
-                let dstVC = segue.destination as! DetailVC
-                dstVC.weatherModel = cityWeather
-            }
-  
-        }
-    }
 
    
 //Delete
